@@ -32,3 +32,6 @@ And many more..
 There could be two different users:
 - manager that has access to everything
 - worker that has  access to own work
+
+### Other
+This is for tsoha 2023
