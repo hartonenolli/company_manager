@@ -1,11 +1,13 @@
 from app import app
 from flask import render_template, request
+import database_methods
 
 @app.route("/")
 def index():
     return render_template("index.html")
 
-@app.route("/log_in", methods=["POST"])
-def log_in():
+@app.route("/login", methods=["POST"])
+def login():
     user = request.form["name"]
-    return render_template("log_in.html", user=user)
+    admin = database_methods.get_admin(user)
+    return render_template("login.html", user=user, admin=admin)
