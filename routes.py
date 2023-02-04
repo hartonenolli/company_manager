@@ -20,3 +20,12 @@ def login():
 def search():
 
     return render_template("search.html")
+
+@app.route("/info", methods=["POST"])
+def info():
+    intrest = request.form["intrest"]
+    if intrest == "costumer":
+        count = database_methods.get_count_by_costumer(session["username"])
+    else:
+        count = "No info"
+    return render_template("info.html", intrest=intrest, count=count)
