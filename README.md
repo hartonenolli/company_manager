@@ -1,5 +1,32 @@
 # company_manager
 
+## Current state:
+
+Currently, the application can only retrieves the number of customers. I assume that making other more challenging searches will be smooth, now that I have a working foundation.
+Work cannot be added yet, even though the addition form exists. The addition should be done quickly. At the moment, anyone can log in to the application with any password.
+
+To be honest, I still have a lot of work to do. This is because I had major problems getting the database to work. For some reason, a connection could not be established. It took 3-4 days to fix the issue.
+
+But you can still test these if you like. First clone the repo, then:
+
+python3 -m venv venv
+
+source venv/bin/activate
+
+(venv) $ pip install flask
+
+(venv) $ pip install flask-sqlalchemy
+
+(venv) $ pip install psycopg2
+
+(venv) $ pip install python-dotenv
+
+(venv) $ pip install -r requirements.txt
+
+(venv) $ psql < schema.sql
+
+(venv) $ flask run
+
 ## What is this?
 
     The application helps users maintain completed and unfinished work.
