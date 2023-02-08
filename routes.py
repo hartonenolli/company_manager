@@ -13,21 +13,23 @@ def login():
     else:
         user = request.form["name"]
         session["username"] = user
+    session["user_id"] = database_methods.get_id(user)
     admin = database_methods.get_admin(user)
     return render_template("login.html", user=user, admin=admin)
 
-@app.route("/login_added_new_work", methods=["POST"])
-def login_add():
-    #costumer = request.form["costumer"]
-    #work_type = request.form["work_type"]
-    #price = request.form["price"]
-    #status = request.form["status"]
-    #start_date = request.form["start_date"]
-    #TO DO
+@app.route("/about_to_add", methods=["POST"])
+def about_to_add():
+    costumer = request.form["costumer"]
+    work_type = request.form["work_type"]
+    price = request.form["price"]
+    status = request.form["status"]
+    start_date = request.form["start_date"]
+    if len(start_date) != 8:
+        return redirect("/add")
     user = session["username"]
     admin = database_methods.get_admin(user)
-    return render_template("login.html", user=user, admin=admin)
-
+    return render_template("about_to_add.html", user=user, costumer=costumer,
+        work_type=work_type, price=price, status=status, start_date=start_date)
 @app.route("/search")
 def search():
 

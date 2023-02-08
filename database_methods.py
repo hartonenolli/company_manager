@@ -8,6 +8,13 @@ def get_admin(username):
         return "You are admin"
     return "You are not admin"
 
+def get_id(username):
+    result = db.session.execute(text("SELECT id FROM users WHERE username=:username"), {'username':username})
+    user_id = result.fetchone()[0]
+    user_result = db.session.execute(text("SELECT user_id FROM work WHERE user_id=:user_id"), {'user_id':user_id})
+    id = user_result.fetchone()[0]
+    return id
+
 def get_count_by_costumer(username):
     id_result = db.session.execute(text("SELECT id FROM users WHERE username=:username"), {'username':username})
     id = id_result.fetchone()

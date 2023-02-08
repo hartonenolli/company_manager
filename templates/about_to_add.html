@@ -1,0 +1,16 @@
+You ({{session.username}}) are about to add following work to database:<br>
+Costumer: {{costumer}}<br>
+Work type: {{work_type}}<br>
+Price: {{price}}<br>
+Work status: {{status}}<br>
+Start date: {{start_date}}<br>
+Is the information correct?<br>
+To add the information press button: 
+<form><input type="submit" value="Add info">
+    <input type="hidden" name="costumer" value="{{costumer}}">
+    <input type="hidden" name="work_type" value="{{work_type}}">
+    <input type="hidden" name="price" value="{{price}}">
+    <input type="hidden" name="status" value="{{status}}">
+    <input type="hidden" name="start_date" value="{{start_date}}">
+</form>
+<a href="/login">Return</a>
