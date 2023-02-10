@@ -1,10 +1,33 @@
 from app import app
 from flask import render_template, request, redirect, session
 import database_methods
+from werkzeug.security import check_password_hash, generate_password_hash
 
-@app.route("/")
+@app.route("/", methods=["GET", "POST"])
 def index():
-    return render_template("index.html")
+    if request.method == "GET":
+        return render_template("index.html")
+    username = request.form["name"]
+    user_exists = database_methods.get_user(username)
+    if user_exists:
+        return redirect("/register")
+    password1 = request.form["password1"]
+    password2 = request.form["password2"]
+    admin = request.form["admin"]
+    if admin == "admin123":
+        admin = True
+    else:
+        admin = False
+    if password1 == password2:
+        hash_password = generate_password_hash(password1)
+        database_methods.insert_user_password_admin(username,
+            hash_password, admin)
+        return render_template("index.html")
+    return redirect("/register")
+
+@app.route("/register", methods=["GET", "POST"])
+def register():
+    return render_template("register.html")
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
