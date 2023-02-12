@@ -61,10 +61,9 @@ def work_added():
     price = request.form["price"]
     status = request.form["status"]
     start_date = request.form["start_date"]
-    #if len(start_date) != 8:
-    #    return redirect("/add")
     user = session["username"]
-    #admin = database_methods.get_admin(user)
+    user_id = database_methods.get_id(user)
+    database_methods.insert_work(user_id=user_id, costumer=costumer, work_type=work_type, price=price, status=status, start_date=start_date)
     return render_template("work_added.html", user=user, costumer=costumer,
         work_type=work_type, price=price, status=status, start_date=start_date)
 

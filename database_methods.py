@@ -37,3 +37,7 @@ def insert_user_password_admin(username, password, admin):
     db.session.execute(text("INSERT INTO users (username, password, admin) VALUES (:username, :password, :admin)"), {"username":username, "password":password, "admin":admin})
     db.session.commit()
 
+def insert_work(user_id, costumer, work_type, price, status, start_date):
+    db.session.execute(text("INSERT INTO work (user_id, costumer, work_type, price, status, start_date) VALUES (:user_id, :costumer, :work_type, :price, :status, :start_date)"),
+                       {"user_id":user_id, "costumer":costumer, "work_type":work_type, "price":price, "status":status, "start_date":start_date})
+    db.session.commit()
