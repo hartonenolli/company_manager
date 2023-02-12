@@ -90,8 +90,11 @@ def info():
         count = database_methods.get_count_by_costumer(session["username"])
         return render_template("costumer.html", intrest=intrest, count=count)
     if intrest == "work_type":
-        count = database_methods.get_work_type(session["user_id"])
-        return render_template("work_type.html", intrest=intrest, count=count)
+        count = database_methods.get_work_type(session["username"])
+        number_of_works = count[-1]
+        work_list = count[0]
+        combined_price = database_methods.get_combined_price(session["username"])
+        return render_template("work_type.html", intrest=intrest, work_list=work_list, number_of_works=number_of_works, combined_price=combined_price)
     
 
 @app.route("/logout")

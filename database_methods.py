@@ -38,13 +38,27 @@ def get_count_by_costumer(username):
     count = result.fetchone()[0]
     return count
 
-def get_work_type(user_id):
-    result = db.session.execute(text("SELECT work_type, price FROM work WHERE user_id=3 ORDER BY price DESC"), {'user_id':user_id})
+def get_work_type(username):
+    id_result = db.session.execute(text("SELECT id FROM users WHERE username=:username"), {'username':username})
+    id = id_result.fetchone()
+    if id is None:
+        return 0, 0
+    result = db.session.execute(text("SELECT work_type, price FROM work WHERE user_id=:id ORDER BY price DESC"), {'id':id[0]})
     work_list = result.fetchall()
     if work_list is None:
-        return 0
-    return work_list
+        return 0, 0
+    result = db.session.execute(text("SELECT COUNT(work_type) FROM work WHERE user_id=:id"), {'id':id[0]})
+    work_list_length = result.fetchone()[0]
+    return work_list, work_list_length
 
+def get_combined_price(username):
+    id_result = db.session.execute(text("SELECT id FROM users WHERE username=:username"), {'username':username})
+    id = id_result.fetchone()
+    if id is None:
+        return 0
+    result = db.session.execute(text("SELECT SUM(price) FROM work WHERE user_id=:id"), {'id':id[0]})
+    combined_price = result.fetchone()[0]
+    return combined_price
 
 def insert_user_password_admin(username, password, admin):
     db.session.execute(text("INSERT INTO users (username, password, admin) VALUES (:username, :password, :admin)"), {"username":username, "password":password, "admin":admin})
