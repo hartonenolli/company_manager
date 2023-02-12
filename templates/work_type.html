@@ -1,0 +1,6 @@
+WELCOME USER {{session.username}}<br>
+Information gathered about: {{intrest}}<br>
+This is how many works you have you have: {% for work in count %}<br>
+Work: {{work.work_type}}          Price:  {{work.price}}<br>
+{% endfor %}
+<a href="/login">Return</a>

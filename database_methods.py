@@ -38,6 +38,14 @@ def get_count_by_costumer(username):
     count = result.fetchone()[0]
     return count
 
+def get_work_type(user_id):
+    result = db.session.execute(text("SELECT work_type, price FROM work WHERE user_id=3 ORDER BY price DESC"), {'user_id':user_id})
+    work_list = result.fetchall()
+    if work_list is None:
+        return 0
+    return work_list
+
+
 def insert_user_password_admin(username, password, admin):
     db.session.execute(text("INSERT INTO users (username, password, admin) VALUES (:username, :password, :admin)"), {"username":username, "password":password, "admin":admin})
     db.session.commit()
