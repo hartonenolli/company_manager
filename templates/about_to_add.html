@@ -6,7 +6,8 @@ Work status: {{status}}<br>
 Start date: {{start_date}}<br>
 Is the information correct?<br>
 To add the information press button: 
-<form><input type="submit" value="Add info">
+<form action="/work_added" method="POST">
+    <input type="submit" value="Add info">
     <input type="hidden" name="costumer" value="{{costumer}}">
     <input type="hidden" name="work_type" value="{{work_type}}">
     <input type="hidden" name="price" value="{{price}}">

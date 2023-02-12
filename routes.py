@@ -50,9 +50,24 @@ def about_to_add():
     if len(start_date) != 8:
         return redirect("/add")
     user = session["username"]
-    admin = database_methods.get_admin(user)
+    #admin = database_methods.get_admin(user)
     return render_template("about_to_add.html", user=user, costumer=costumer,
         work_type=work_type, price=price, status=status, start_date=start_date)
+
+@app.route("/work_added", methods=["POST"])
+def work_added():
+    costumer = request.form["costumer"]
+    work_type = request.form["work_type"]
+    price = request.form["price"]
+    status = request.form["status"]
+    start_date = request.form["start_date"]
+    #if len(start_date) != 8:
+    #    return redirect("/add")
+    user = session["username"]
+    #admin = database_methods.get_admin(user)
+    return render_template("work_added.html", user=user, costumer=costumer,
+        work_type=work_type, price=price, status=status, start_date=start_date)
+
 @app.route("/search")
 def search():
 
