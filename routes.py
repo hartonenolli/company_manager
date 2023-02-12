@@ -35,10 +35,15 @@ def login():
         user = session["username"]
     else:
         user = request.form["name"]
-        session["username"] = user
-    session["user_id"] = database_methods.get_id(user)
-    admin = database_methods.get_admin(user)
-    return render_template("login.html", user=user, admin=admin)
+        password = request.form["password"]
+        #hash_password = generate_password_hash(password)
+        hash_password = database_methods.get_hash_password(user)
+        if check_password_hash(hash_password, password):    
+            session["username"] = user
+            session["user_id"] = database_methods.get_id(user)
+            admin = database_methods.get_admin(user)
+            return render_template("login.html", user=user, admin=admin)
+    return redirect("/")
 
 @app.route("/about_to_add", methods=["POST"])
 def about_to_add():
@@ -85,3 +90,8 @@ def info():
     else:
         count = "No info"
     return render_template("info.html", intrest=intrest, count=count)
+
+@app.route("/logout")
+def logout():
+    del session["username"]
+    return redirect("/")

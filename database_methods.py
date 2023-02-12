@@ -24,6 +24,11 @@ def get_user(username):
         return False
     return True
 
+def get_hash_password(username):
+    result = db.session.execute(text("SELECT password FROM users WHERE username=:username"), {'username':username})
+    password_hash = result.fetchone()[0]
+    return password_hash
+
 def get_count_by_costumer(username):
     id_result = db.session.execute(text("SELECT id FROM users WHERE username=:username"), {'username':username})
     id = id_result.fetchone()
