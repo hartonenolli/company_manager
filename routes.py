@@ -52,13 +52,13 @@ def about_to_add():
     work_type = request.form["work_type"]
     price = request.form["price"]
     status = request.form["status"]
-    start_date = request.form["start_date"]
-    if len(start_date) != 8:
-        return redirect("/add")
+    date = request.form["date"]
+
+        #return redirect("/add")
     user = session["username"]
     #admin = database_methods.get_admin(user)
     return render_template("about_to_add.html", user=user, costumer=costumer,
-        work_type=work_type, price=price, status=status, start_date=start_date)
+        work_type=work_type, price=price, status=status, date=date)
 
 @app.route("/work_added", methods=["POST"])
 def work_added():
@@ -66,12 +66,12 @@ def work_added():
     work_type = request.form["work_type"]
     price = request.form["price"]
     status = request.form["status"]
-    start_date = request.form["start_date"]
+    date = request.form["date"]
     user = session["username"]
     user_id = database_methods.get_id(user)
-    database_methods.insert_work(user_id=user_id, costumer=costumer, work_type=work_type, price=price, status=status, start_date=start_date)
+    database_methods.insert_work(user_id=user_id, costumer=costumer, work_type=work_type, price=price, status=status, date=date)
     return render_template("work_added.html", user=user, costumer=costumer,
-        work_type=work_type, price=price, status=status, start_date=start_date)
+        work_type=work_type, price=price, status=status, date=date)
 
 @app.route("/search")
 def search():
@@ -91,7 +91,7 @@ def info():
         return render_template("costumer.html", intrest=intrest, count=count)
     if intrest == "work_type":
         count = database_methods.get_work_type(session["username"])
-        number_of_works = count[-1]
+        number_of_works = count[1]
         work_list = count[0]
         combined_price = database_methods.get_combined_price(session["username"])
         return render_template("work_type.html", intrest=intrest, work_list=work_list, number_of_works=number_of_works, combined_price=combined_price)

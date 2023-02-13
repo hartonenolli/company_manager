@@ -3,7 +3,7 @@ Costumer: {{costumer}}<br>
 Work type: {{work_type}}<br>
 Price: {{price}}<br>
 Work status: {{status}}<br>
-Start date: {{start_date}}<br>
+Start date: {{date}}<br>
 Is the information correct?<br>
 To add the information press button: 
 <form action="/work_added" method="POST">
@@ -12,6 +12,6 @@ To add the information press button:
     <input type="hidden" name="work_type" value="{{work_type}}">
     <input type="hidden" name="price" value="{{price}}">
     <input type="hidden" name="status" value="{{status}}">
-    <input type="hidden" name="start_date" value="{{start_date}}">
+    <input type="hidden" name="date" value="{{date}}">
 </form>
 <a href="/login">Return</a>

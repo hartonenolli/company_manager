@@ -12,5 +12,5 @@ CREATE TABLE work (
     work_type TEXT,
     price INTEGER,
     status TEXT,
-    start_date INTEGER
+    date DATE
 );
