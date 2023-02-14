@@ -51,6 +51,17 @@ def get_work_type(username):
     work_list_length = result.fetchone()[0]
     return work_list, work_list_length
 
+def get_date_order(username):
+    id_result = db.session.execute(text("SELECT id FROM users WHERE username=:username"), {'username':username})
+    id = id_result.fetchone()
+    if id is None:
+        return 0
+    result = db.session.execute(text("SELECT work_type, date FROM work WHERE user_id=:id ORDER BY date DESC"), {'id':id[0]})
+    date_list = result.fetchall()
+    if date_list is None:
+        return 0
+    return date_list
+
 def get_combined_price(username):
     id_result = db.session.execute(text("SELECT id FROM users WHERE username=:username"), {'username':username})
     id = id_result.fetchone()

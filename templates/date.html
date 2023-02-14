@@ -1,0 +1,6 @@
+WELCOME USER {{session.username}}<br>
+Information gathered about: {{intrest}}<br>
+{% for work in date_list %}<br>
+Work: {{work.work_type}}          Date:  {{work.date}}<br>
+{% endfor %}
+<a href="/login">Return</a>

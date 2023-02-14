@@ -95,6 +95,9 @@ def info():
         work_list = count[0]
         combined_price = database_methods.get_combined_price(session["username"])
         return render_template("work_type.html", intrest=intrest, work_list=work_list, number_of_works=number_of_works, combined_price=combined_price)
+    if intrest == "date":
+        date_list = database_methods.get_date_order(session["username"])
+        return render_template("date.html", intrest=intrest, date_list=date_list)
     
 
 @app.route("/logout")
