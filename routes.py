@@ -18,11 +18,12 @@ def index():
         admin = True
     else:
         admin = False
-    if password1 == password2:
-        hash_password = generate_password_hash(password1)
-        database_methods.insert_user_password_admin(username,
-            hash_password, admin)
-        return render_template("index.html")
+    if database_methods.good_password(password1=password1) is True:
+        if password1 == password2:
+            hash_password = generate_password_hash(password1)
+            database_methods.insert_user_password_admin(username,
+                hash_password, admin)
+            return render_template("index.html")
     return redirect("/register")
 
 @app.route("/register", methods=["GET", "POST"])
@@ -99,6 +100,10 @@ def info():
         date_list = database_methods.get_date_order(session["username"])
         return render_template("date.html", intrest=intrest, date_list=date_list)
     
+@app.route("/modify")
+def modify():
+
+    return render_template("modify.html")
 
 @app.route("/logout")
 def logout():

@@ -1,6 +1,6 @@
 from db import db
 from sqlalchemy.sql import text
-#from werkzeug.security import check_password_hash, generate_password_hash
+import re
 
 def get_admin(username):
     result = db.session.execute(text("SELECT admin FROM users WHERE username=:username"), {'username':username})
@@ -79,3 +79,7 @@ def insert_work(user_id, costumer, work_type, price, status, date):
     db.session.execute(text("INSERT INTO work (user_id, costumer, work_type, price, status, date) VALUES (:user_id, :costumer, :work_type, :price, :status, :date)"),
                        {"user_id":user_id, "costumer":costumer, "work_type":work_type, "price":price, "status":status, "date":date})
     db.session.commit()
+
+def good_password(password):
+    if len(password) > 7 and bool(re.search(r'[a-z]', password)) is True and bool(re.search(r'[A-Z]', password)) is True and bool(re.search(r'[0-9]', password)) is True:
+        return True
