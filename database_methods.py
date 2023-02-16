@@ -29,38 +29,47 @@ def get_hash_password(username):
     password_hash = result.fetchone()[0]
     return password_hash
 
-def get_count_by_costumer(username):
+def get_count_by_price(username):
     id_result = db.session.execute(text("SELECT id FROM users WHERE username=:username"), {'username':username})
-    id = id_result.fetchone()
-    if id is None:
-        return 0
-    result = db.session.execute(text("SELECT COUNT(costumer) FROM work WHERE user_id=:id"), {'id':id[0]})
-    count = result.fetchone()[0]
-    return count
+    user_id = id_result.fetchone()
+    if user_id is None:
+        return [], 0
+    #result = db.session.execute(text("SELECT COUNT(costumer) FROM work WHERE user_id=:id"), {'id':id[0]})
+    #count = result.fetchone()[0]
+    #return count
+    result = db.session.execute(text("SELECT id, work_type, price, status, date FROM work WHERE user_id=:user_id ORDER BY price DESC"), {'user_id':user_id[0]})
+    price_list = result.fetchall()
+    if price_list is None:
+        return [], 0
+    result = db.session.execute(text("SELECT COUNT(costumer) FROM work WHERE user_id=:user_id"), {'user_id':user_id[0]})
+    price_list_length = result.fetchone()[0]
+    return price_list, price_list_length
 
 def get_work_type(username):
     id_result = db.session.execute(text("SELECT id FROM users WHERE username=:username"), {'username':username})
-    id = id_result.fetchone()
-    if id is None:
-        return 0, 0
-    result = db.session.execute(text("SELECT work_type, price FROM work WHERE user_id=:id ORDER BY price DESC"), {'id':id[0]})
+    user_id = id_result.fetchone()
+    if user_id is None:
+        return [], 0
+    result = db.session.execute(text("SELECT id, work_type, price, status, date FROM work WHERE user_id=:user_id ORDER BY work_type"), {'user_id':user_id[0]})
     work_list = result.fetchall()
     if work_list is None:
-        return 0, 0
-    result = db.session.execute(text("SELECT COUNT(work_type) FROM work WHERE user_id=:id"), {'id':id[0]})
+        return [], 0
+    result = db.session.execute(text("SELECT COUNT(work_type) FROM work WHERE user_id=:user_id"), {'user_id':user_id[0]})
     work_list_length = result.fetchone()[0]
     return work_list, work_list_length
 
 def get_date_order(username):
     id_result = db.session.execute(text("SELECT id FROM users WHERE username=:username"), {'username':username})
-    id = id_result.fetchone()
-    if id is None:
-        return 0
-    result = db.session.execute(text("SELECT work_type, date FROM work WHERE user_id=:id ORDER BY date DESC"), {'id':id[0]})
+    user_id = id_result.fetchone()
+    if user_id is None:
+        return [], 0
+    result = db.session.execute(text("SELECT id, work_type, price, status, date FROM work WHERE user_id=:user_id ORDER BY date DESC"), {'user_id':user_id[0]})
     date_list = result.fetchall()
     if date_list is None:
-        return 0
-    return date_list
+        return [], 0
+    result = db.session.execute(text("SELECT COUNT(costumer) FROM work WHERE user_id=:user_id"), {'user_id':user_id[0]})
+    date_list_length = result.fetchone()[0]
+    return date_list, date_list_length
 
 def get_combined_price(username):
     id_result = db.session.execute(text("SELECT id FROM users WHERE username=:username"), {'username':username})

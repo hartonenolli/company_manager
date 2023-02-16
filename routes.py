@@ -87,18 +87,24 @@ def add():
 @app.route("/info", methods=["POST"])
 def info():
     intrest = request.form["intrest"]
-    if intrest == "costumer":
-        count = database_methods.get_count_by_costumer(session["username"])
-        return render_template("costumer.html", intrest=intrest, count=count)
+    if intrest == "price":
+        count = database_methods.get_count_by_price(session["username"])
+        number_of_intrest = count[1]
+        intrest_list = count[0]
+        combined_price = database_methods.get_combined_price(session["username"])
+        return render_template("info_gathered.html", intrest=intrest, intrest_list=intrest_list, number_of_intrest=number_of_intrest, combined_price=combined_price)
     if intrest == "work_type":
         count = database_methods.get_work_type(session["username"])
-        number_of_works = count[1]
-        work_list = count[0]
+        number_of_intrest = count[1]
+        intrest_list = count[0]
         combined_price = database_methods.get_combined_price(session["username"])
-        return render_template("work_type.html", intrest=intrest, work_list=work_list, number_of_works=number_of_works, combined_price=combined_price)
+        return render_template("info_gathered.html", intrest=intrest, intrest_list=intrest_list, number_of_intrest=number_of_intrest, combined_price=combined_price)
     if intrest == "date":
-        date_list = database_methods.get_date_order(session["username"])
-        return render_template("date.html", intrest=intrest, date_list=date_list)
+        count = database_methods.get_date_order(session["username"])
+        number_of_intrest = count[1]
+        intrest_list = count[0]
+        combined_price = database_methods.get_combined_price(session["username"])
+        return render_template("info_gathered.html", intrest=intrest, intrest_list=intrest_list, number_of_intrest=number_of_intrest, combined_price=combined_price)
     
 @app.route("/modify")
 def modify():
