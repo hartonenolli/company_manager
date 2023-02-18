@@ -4,9 +4,11 @@ WELCOME USER {{session.username}}<br>
 <br>
 <form action="/info" method="POST">
     I want to do: <br>
+    <input type="radio" name="intrest" value="costumer"> sort by costumer
     <input type="radio" name="intrest" value="price" checked> sort by price
     <input type="radio" name="intrest" value="work_type"> sort by work type
-    <input type="radio" name="intrest" value="date"> sort by date
+    <input type="radio" name="intrest" value="date"> sort by date<br>
+    <input type="radio" name="intrest" value="costumer_admin"> sort by costumer (admin)
     <input type="radio" name="intrest" value="price_admin"> sort by price (admin)
     <input type="radio" name="intrest" value="work_type_admin"> sort by work type (admin)
     <input type="radio" name="intrest" value="date_admin"> sort by date (admin)

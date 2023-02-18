@@ -87,6 +87,12 @@ def add():
 @app.route("/info", methods=["POST"])
 def info():
     intrest = request.form["intrest"]
+    if intrest == "costumer":
+        count = database_methods.get_count_by_costumer(session["username"])
+        number_of_intrest = count[1]
+        intrest_list = count[0]
+        combined_price = database_methods.get_combined_price(session["username"])
+        return render_template("info_gathered.html", intrest=intrest, intrest_list=intrest_list, number_of_intrest=number_of_intrest, combined_price=combined_price)
     if intrest == "price":
         count = database_methods.get_count_by_price(session["username"])
         number_of_intrest = count[1]
