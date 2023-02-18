@@ -64,7 +64,7 @@ def get_count_by_price_admin():
     price_list_length = result.fetchone()[0]
     return price_list, price_list_length
 
-def get_work_type(username):
+def get_count_by_work_type(username):
     id_result = db.session.execute(text("SELECT id FROM users WHERE username=:username"), {'username':username})
     user_id = id_result.fetchone()
     if user_id is None:
@@ -77,7 +77,7 @@ def get_work_type(username):
     work_list_length = result.fetchone()[0]
     return work_list, work_list_length
 
-def get_date_order(username):
+def get_count_by_date(username):
     id_result = db.session.execute(text("SELECT id FROM users WHERE username=:username"), {'username':username})
     user_id = id_result.fetchone()
     if user_id is None:
