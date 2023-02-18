@@ -18,7 +18,7 @@ def index():
         admin = True
     else:
         admin = False
-    if database_methods.good_password(password1=password1) is True:
+    if database_methods.good_password(password1) is True:
         if password1 == password2:
             hash_password = generate_password_hash(password1)
             database_methods.insert_user_password_admin(username,
@@ -100,6 +100,8 @@ def info():
         intrest_list = count[0]
         combined_price = database_methods.get_combined_price(session["username"])
         return render_template("info_gathered.html", intrest=intrest, intrest_list=intrest_list, number_of_intrest=number_of_intrest, combined_price=combined_price)
+    if not database_methods.get_admin(session["username"]):
+        return redirect("/login")
     
 @app.route("/modify")
 def modify():

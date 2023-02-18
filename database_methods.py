@@ -4,8 +4,8 @@ import re
 
 def get_admin(username):
     result = db.session.execute(text("SELECT admin FROM users WHERE username=:username"), {'username':username})
-    admin = result.fetchone()
-    if admin:
+    admin = result.fetchone()[0]
+    if admin == True:
         return "You are admin"
     return "You are not admin"
 
