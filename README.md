@@ -2,10 +2,14 @@
 
 ## Current state:
 
-Currently, the application can only retrieves the number of customers. I assume that making other more challenging searches will be smooth, now that I have a working foundation.
-Work cannot be added yet, even though the addition form exists. The addition should be done quickly. At the moment, anyone can log in to the application with any password.
+It is possible to register. You have to use password that is *8-digit long, has numbers, upper- and lowercase letters.*
+You can add admin user by givin admin code: "admin123"
+After registering you can login. It is possible to add new work. (This needs some work to make sure information is given correctly, but as long you give work-info in correct form it works.)
+It is possible to search all types of work. You will be shown a list of all the work you have done.
 
-To be honest, I still have a lot of work to do. This is because I had major problems getting the database to work. For some reason, a connection could not be established. It took 3-4 days to fix the issue.
+Modify was not something I was prepared to do at the start of the project, but I try to implement it as soon as possible. You might have a need to change the status of the work at some point. This feature is not ready.
+
+Code needs some cleaning up.
 
 But you can still test these if you like. First clone the repo, then:
 
