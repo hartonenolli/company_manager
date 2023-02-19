@@ -37,7 +37,6 @@ def login():
     else:
         user = request.form["name"]
         password = request.form["password"]
-        #hash_password = generate_password_hash(password)
         hash_password = database_methods.get_hash_password(user)
         if not check_password_hash(hash_password, password):
             return redirect("/")
@@ -54,10 +53,7 @@ def about_to_add():
     price = request.form["price"]
     status = request.form["status"]
     date = request.form["date"]
-
-        #return redirect("/add")
     user = session["username"]
-    #admin = database_methods.get_admin(user)
     return render_template("about_to_add.html", user=user, costumer=costumer,
         work_type=work_type, price=price, status=status, date=date)
 
@@ -87,6 +83,10 @@ def add():
 @app.route("/info", methods=["POST"])
 def info():
     intrest = request.form["intrest"]
+    # idea to use sql = f"SELECT id, costumer, work_type, price, status, date FROM work WHERE user_id=:user_id ORDER BY {intrest}"
+    # I try to implement this when time
+    # This way it would be possible to use database_methods like so:
+    # database_method.get_count(session["username"], sql)
     if "admin" not in intrest:
         if intrest == "costumer":
             count = database_methods.get_count_by_costumer(session["username"])
@@ -102,6 +102,15 @@ def info():
         return render_template("info_gathered.html", intrest=intrest, intrest_list=intrest_list, number_of_intrest=number_of_intrest, combined_price=combined_price)
     if not database_methods.get_admin(session["username"]):
         return redirect("/login")
+    if intrest == "costumer_admin":
+        count = database_methods.get_count_by_costumer_admin()
+    elif intrest == "price_admin":
+        count = database_methods.get_count_by_price_admin()
+    number_of_intrest = count[1]
+    intrest_list = count[0]
+    combined_price = database_methods.get_combined_price_admin()
+    return render_template("info_gathered.html", intrest=intrest, intrest_list=intrest_list, number_of_intrest=number_of_intrest, combined_price=combined_price)
+
     
 @app.route("/modify")
 def modify():

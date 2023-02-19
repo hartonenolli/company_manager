@@ -42,6 +42,15 @@ def get_count_by_costumer(username):
     price_list_length = result.fetchone()[0]
     return price_list, price_list_length
 
+def get_count_by_costumer_admin():
+    result = db.session.execute(text("SELECT id, costumer, work_type, price, status, date FROM work ORDER BY costumer"))
+    price_list = result.fetchall()
+    if price_list is None:
+        return [], 0
+    result = db.session.execute(text("SELECT COUNT(costumer) FROM work"))
+    price_list_length = result.fetchone()[0]
+    return price_list, price_list_length
+
 def get_count_by_price(username):
     id_result = db.session.execute(text("SELECT id FROM users WHERE username=:username"), {'username':username})
     user_id = id_result.fetchone()
@@ -56,7 +65,7 @@ def get_count_by_price(username):
     return price_list, price_list_length
 
 def get_count_by_price_admin():
-    result = db.session.execute(text("SELECT id, costumer, work_type, price, status, date FROM work WHERE user_id=:user_id ORDER BY price DESC"), {'user_id':user_id[0]})
+    result = db.session.execute(text("SELECT id, costumer, work_type, price, status, date FROM work ORDER BY price DESC"))
     price_list = result.fetchall()
     if price_list is None:
         return [], 0
@@ -98,6 +107,12 @@ def get_combined_price(username):
     result = db.session.execute(text("SELECT SUM(price) FROM work WHERE user_id=:id"), {'id':id[0]})
     combined_price = result.fetchone()[0]
     return combined_price
+
+def get_combined_price_admin():
+    result = db.session.execute(text("SELECT SUM(price) FROM work"))
+    combined_price = result.fetchone()[0]
+    return combined_price
+
 
 def insert_user_password_admin(username, password, admin):
     db.session.execute(text("INSERT INTO users (username, password, admin) VALUES (:username, :password, :admin)"), {"username":username, "password":password, "admin":admin})
