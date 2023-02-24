@@ -3,7 +3,7 @@ Information gathered and sorted by: {{intrest}}<br>
 <h1>GOOD JOB! You have been productive member of our company.<br>
      {{combined_price}}e is the combined sum from work<br>
 </h1>
-This is how many works you have you have: {{number_of_intrest}} {% for work in intrest_list %}<br>
+This is the number of works: {{number_of_intrest}} {% for work in intrest_list %}<br>
 <form action="/modify" method="POST">
 <input type="radio" name="selected" value={{work.id}} checked> Modify
 Costumer:   {{work.costumer}}          Work: {{work.work_type}}          Price:  {{work.price}}          Status:  {{work.status}}          Date:  {{work.date}}<br>

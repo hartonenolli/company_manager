@@ -86,6 +86,15 @@ def get_count_by_work_type(username):
     work_list_length = result.fetchone()[0]
     return work_list, work_list_length
 
+def get_count_by_work_type_admin():
+    result = db.session.execute(text("SELECT id, costumer, work_type, price, status, date FROM work ORDER BY work_type"))
+    price_list = result.fetchall()
+    if price_list is None:
+        return [], 0
+    result = db.session.execute(text("SELECT COUNT(costumer) FROM work"))
+    price_list_length = result.fetchone()[0]
+    return price_list, price_list_length
+
 def get_count_by_date(username):
     id_result = db.session.execute(text("SELECT id FROM users WHERE username=:username"), {'username':username})
     user_id = id_result.fetchone()
@@ -98,6 +107,15 @@ def get_count_by_date(username):
     result = db.session.execute(text("SELECT COUNT(costumer) FROM work WHERE user_id=:user_id"), {'user_id':user_id[0]})
     date_list_length = result.fetchone()[0]
     return date_list, date_list_length
+
+def get_count_by_date_admin():
+    result = db.session.execute(text("SELECT id, costumer, work_type, price, status, date FROM work ORDER BY date DESC"))
+    price_list = result.fetchall()
+    if price_list is None:
+        return [], 0
+    result = db.session.execute(text("SELECT COUNT(costumer) FROM work"))
+    price_list_length = result.fetchone()[0]
+    return price_list, price_list_length
 
 def get_combined_price(username):
     id_result = db.session.execute(text("SELECT id FROM users WHERE username=:username"), {'username':username})

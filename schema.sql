@@ -14,3 +14,10 @@ CREATE TABLE work (
     status TEXT,
     date DATE
 );
+
+CREATE TABLE modify (
+    id SERIAL PRIMARY KEY,
+    user_id INTEGER REFERENCES users,
+    reason TEXT,
+    time TIMESTAMP
+);

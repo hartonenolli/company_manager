@@ -106,6 +106,10 @@ def info():
         count = database_methods.get_count_by_costumer_admin()
     elif intrest == "price_admin":
         count = database_methods.get_count_by_price_admin()
+    elif intrest == "work_type_admin":
+        count = database_methods.get_count_by_work_type_admin()
+    elif intrest == "date_admin":
+        count = database_methods.get_count_by_date_admin()
     number_of_intrest = count[1]
     intrest_list = count[0]
     combined_price = database_methods.get_combined_price_admin()
