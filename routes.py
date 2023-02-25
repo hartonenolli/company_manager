@@ -2,6 +2,7 @@ from app import app
 from flask import render_template, request, redirect, session
 import database_methods
 from werkzeug.security import check_password_hash, generate_password_hash
+import secrets
 
 @app.route("/", methods=["GET", "POST"])
 def index():
@@ -42,12 +43,15 @@ def login():
             return redirect("/")
         session["username"] = user
         session["user_id"] = database_methods.get_id(user)
+        session["csrf_token"] = secrets.token_hex(16)
     admin = database_methods.get_admin(user)
     return render_template("login.html", user=user, admin=admin)
     
 
 @app.route("/about_to_add", methods=["POST"])
 def about_to_add():
+    if session["csrf_token"] != request.form["csrf_token"]:
+        abort(403)
     costumer = request.form["costumer"]
     work_type = request.form["work_type"]
     price = request.form["price"]
@@ -59,6 +63,8 @@ def about_to_add():
 
 @app.route("/work_added", methods=["POST"])
 def work_added():
+    if session["csrf_token"] != request.form["csrf_token"]:
+        abort(403)
     costumer = request.form["costumer"]
     work_type = request.form["work_type"]
     price = request.form["price"]
@@ -82,6 +88,8 @@ def add():
 
 @app.route("/info", methods=["POST"])
 def info():
+    if session["csrf_token"] != request.form["csrf_token"]:
+        abort(403)
     intrest = request.form["intrest"]
     # idea to use sql = f"SELECT id, costumer, work_type, price, status, date FROM work WHERE user_id=:user_id ORDER BY {intrest}"
     # I try to implement this when time
@@ -118,6 +126,8 @@ def info():
     
 @app.route("/modify", methods=["POST"])
 def modify():
+    if session["csrf_token"] != request.form["csrf_token"]:
+        abort(403)
     work_id = request.form["selected"]
     selected_work = database_methods.get_one_work_with_id(work_id)
     work_history = database_methods.get_work_history(work_id=work_id)
@@ -125,6 +135,8 @@ def modify():
 
 @app.route("/modify_done", methods=["POST"])
 def modify_done():
+    if session["csrf_token"] != request.form["csrf_token"]:
+        abort(403)
     modifier = database_methods.get_id(session["username"])
     work_id = request.form["work_id"]
     id = database_methods.get_user_id_with_work_id(work_id)

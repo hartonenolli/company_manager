@@ -3,6 +3,7 @@ WELCOME USER {{session.username}}<br>
 <a href="/login">Return</a>
 <br>
 <form action="/info" method="POST">
+    <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
     I want to do: <br>
     <input type="radio" name="intrest" value="costumer" checked> sort by costumer
     <input type="radio" name="intrest" value="price"> sort by price

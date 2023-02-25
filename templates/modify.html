@@ -1,5 +1,6 @@
 WELCOME USER {{session.username}}<br>
 <form action="/modify_done" method="POST">
+    <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
     <h1>Work selected to modify:</h1>{% for work in selected_work %}
     <input type="hidden" name="work_id" value="{{work.id}}">
     Costumer: <input type="text" name="costumer" value={{work.costumer}} size="20"><br>
@@ -19,7 +20,7 @@ WELCOME USER {{session.username}}<br>
     <input type="radio" name="status" value="Restarted"> Restarted<br>
     Start date (ex: 2020-12-22): <input type="text" name="date" value={{work.date}} size="20"><br>
     <br>
-    <h2>Please write explination for midification:</h2><br>
+    <h2>Please write explination for modification:</h2><br>
     <textarea name="explination" rows="5" cols="40"></textarea>
     <br>{% endfor %}
     <input type="submit" value="All done">

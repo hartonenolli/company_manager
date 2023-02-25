@@ -1,5 +1,6 @@
 <h1>Please fill information:</h1><br>
 <form action="/about_to_add" method="POST">
+    <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
     Costumer: <input type="text" name="costumer" size="20"><br>
     Work_type: 
     <input type="radio" name="work_type" value="Installation"> Installation
