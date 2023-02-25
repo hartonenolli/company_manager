@@ -139,6 +139,13 @@ def get_combined_price_admin():
     combined_price = result.fetchone()[0]
     return combined_price
 
+def get_work_history(work_id):
+    result = db.session.execute(text("SELECT id, user_id, modifier, explination, time, costumer, work_type, price, status, date FROM modify WHERE work_id=:work_id ORDER BY time DESC"), {'work_id':work_id})
+    modify_list = result.fetchall()
+    #result = db.session.execute(text("SELECT user_id FROM work WHERE id=:id"), {'id':id})
+    if modify_list is None:
+        return []
+    return modify_list
 
 def insert_user_password_admin(username, password, admin):
     db.session.execute(text("INSERT INTO users (username, password, admin) VALUES (:username, :password, :admin)"), {"username":username, "password":password, "admin":admin})

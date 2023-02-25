@@ -118,9 +118,10 @@ def info():
     
 @app.route("/modify", methods=["POST"])
 def modify():
-    id_for_work = request.form["selected"]
-    selected_work = database_methods.get_one_work_with_id(id_for_work)
-    return render_template("modify.html", selected_work=selected_work)
+    work_id = request.form["selected"]
+    selected_work = database_methods.get_one_work_with_id(work_id)
+    work_history = database_methods.get_work_history(work_id=work_id)
+    return render_template("modify.html", selected_work=selected_work, work_history=work_history)
 
 @app.route("/modify_done", methods=["POST"])
 def modify_done():
