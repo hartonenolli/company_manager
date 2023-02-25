@@ -18,6 +18,13 @@ CREATE TABLE work (
 CREATE TABLE modify (
     id SERIAL PRIMARY KEY,
     user_id INTEGER REFERENCES users,
-    reason TEXT,
-    time TIMESTAMP
+    modifier INTEGER REFERENCES users,
+    work_id INTEGER REFERENCES work,
+    explination TEXT,
+    time TIMESTAMP,
+    costumer TEXT,
+    work_type TEXT,
+    price INTEGER,
+    status TEXT,
+    date DATE
 );

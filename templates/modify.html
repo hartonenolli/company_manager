@@ -1,0 +1,28 @@
+WELCOME USER {{session.username}}<br>
+<form action="/modify_done" method="POST">
+    <h1>Work selected to modify:</h1>{% for work in selected_work %}
+    <input type="hidden" name="work_id" value="{{work.id}}">
+    Costumer: <input type="text" name="costumer" value={{work.costumer}} size="20"><br>
+    Work type currently {{work.work_type}}: 
+    <input type="radio" name="work_type" value="Installation"> Installation
+    <input type="radio" name="work_type" value="Maintenance"> Maintenance
+    <input type="radio" name="work_type" value="Inspection"> Inspection
+    <input type="radio" name="work_type" value="Demolition"> Demolition
+    <input type="radio" name="work_type" value="Upgrading"> Upgrading
+    <input type="radio" name="work_type" value="Other"> Other<br>
+    Price: <input type="text" name="price" value={{work.price}} size="20"><br>
+    Work status currently {{work.status}}:
+    <input type="radio" name="status" value="Not started"> Not started
+    <input type="radio" name="status" value="Started"> Started
+    <input type="radio" name="status" value="Done"> Done
+    <input type="radio" name="status" value="Paused"> Paused
+    <input type="radio" name="status" value="Restarted"> Restarted<br>
+    Start date (ex: 2020-12-22): <input type="text" name="date" value={{work.date}} size="20"><br>
+    <br>
+    <h2>Please write explination for midification:</h2><br>
+    <textarea name="explination" rows="5" cols="40"></textarea>
+    <br>{% endfor %}
+    <input type="submit" value="All done">
+</form>
+<br>
+<a href="/login">Return</a>

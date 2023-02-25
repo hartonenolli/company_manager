@@ -12,8 +12,11 @@ def get_admin(username):
 def get_id(username):
     result = db.session.execute(text("SELECT id FROM users WHERE username=:username"), {'username':username})
     user_id = result.fetchone()[0]
-    #user_result = db.session.execute(text("SELECT user_id FROM work WHERE user_id=:user_id"), {'user_id':user_id})
-    #id = user_result.fetchone()[0]
+    return user_id
+
+def get_user_id_with_work_id(id):
+    result = db.session.execute(text("SELECT user_id FROM work WHERE id=:id"), {'id':id})
+    user_id = result.fetchone()[0]
     return user_id
 
 def get_user(username):
@@ -28,6 +31,11 @@ def get_hash_password(username):
     result = db.session.execute(text("SELECT password FROM users WHERE username=:username"), {'username':username})
     password_hash = result.fetchone()[0]
     return password_hash
+
+def get_one_work_with_id(id):
+    result = db.session.execute(text("SELECT id, costumer, work_type, price, status, date FROM work WHERE id=:id"), {'id':id})
+    selected_work = result.fetchall()
+    return selected_work
 
 def get_count_by_costumer(username):
     id_result = db.session.execute(text("SELECT id FROM users WHERE username=:username"), {'username':username})
@@ -139,6 +147,26 @@ def insert_user_password_admin(username, password, admin):
 def insert_work(user_id, costumer, work_type, price, status, date):
     db.session.execute(text("INSERT INTO work (user_id, costumer, work_type, price, status, date) VALUES (:user_id, :costumer, :work_type, :price, :status, :date)"),
                        {"user_id":user_id, "costumer":costumer, "work_type":work_type, "price":price, "status":status, "date":date})
+    db.session.commit()
+
+def insert_modify_copy_of_work(id, modifier, work_id, explination):
+    result = db.session.execute(text("SELECT costumer FROM work WHERE id=:id"), {'id':work_id})
+    costumer = result.fetchone()[0]
+    result = db.session.execute(text("SELECT work_type FROM work WHERE id=:id"), {'id':work_id})
+    work_type = result.fetchone()[0]
+    result = db.session.execute(text("SELECT price FROM work WHERE id=:id"), {'id':work_id})
+    price = result.fetchone()[0]
+    result = db.session.execute(text("SELECT status FROM work WHERE id=:id"), {'id':work_id})
+    status = result.fetchone()[0]
+    result = db.session.execute(text("SELECT date FROM work WHERE id=:id"), {'id':work_id})
+    date = result.fetchone()[0]
+    db.session.execute(text("INSERT INTO modify (user_id, modifier, work_id, explination, time, costumer, work_type, price, status, date) VALUES (:user_id, :modifier, :work_id, :explination, NOW(), :costumer, :work_type, :price, :status, :date)"),
+                       {"user_id":id, "modifier":modifier, "work_id":work_id, "explination":explination, "costumer":costumer, "work_type":work_type, "price":price, "status":status, "date":date})
+    db.session.commit()
+
+def update_work(work_id, costumer, work_type, price, status, date):
+    db.session.execute(text("UPDATE work SET costumer=:costumer, work_type=:work_type, price=:price, status=:status, date=:date WHERE id=:id"),
+                       {"id":work_id, "costumer":costumer, "work_type":work_type, "price":price, "status":status, "date":date})
     db.session.commit()
 
 def good_password(password):

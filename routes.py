@@ -116,10 +116,28 @@ def info():
     return render_template("info_gathered.html", intrest=intrest, intrest_list=intrest_list, number_of_intrest=number_of_intrest, combined_price=combined_price)
 
     
-@app.route("/modify")
+@app.route("/modify", methods=["POST"])
 def modify():
+    id_for_work = request.form["selected"]
+    selected_work = database_methods.get_one_work_with_id(id_for_work)
+    return render_template("modify.html", selected_work=selected_work)
 
-    return render_template("modify.html")
+@app.route("/modify_done", methods=["POST"])
+def modify_done():
+    modifier = database_methods.get_id(session["username"])
+    work_id = request.form["work_id"]
+    id = database_methods.get_user_id_with_work_id(work_id)
+    explination = request.form["explination"]
+    costumer = request.form["costumer"]
+    work_type = request.form["work_type"]
+    price = request.form["price"]
+    status = request.form["status"]
+    date = request.form["date"]
+    database_methods.insert_modify_copy_of_work(id=id,
+        modifier=modifier, work_id=work_id, explination=explination)
+    database_methods.update_work(work_id=work_id, costumer=costumer,
+        work_type=work_type, price=price, status=status, date=date)
+    return render_template("modify_done.html")
 
 @app.route("/logout")
 def logout():
