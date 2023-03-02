@@ -146,8 +146,8 @@ def get_work_history(work_id):
         return []
     return modify_list
 
-def get_notes(user_id):
-    result = db.session.execute(text("SELECT id, time, memo FROM notes WHERE user_id=:user_id ORDER BY time DESC"), {'user_id':user_id})
+def get_notes():
+    result = db.session.execute(text("SELECT id, time, memo FROM notes ORDER BY time DESC"))
     notes_gathered = result.fetchall()
     if notes_gathered is None:
         return []

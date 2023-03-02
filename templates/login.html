@@ -16,7 +16,7 @@ WELCOME USER {{user}}<br>
     <input type="submit" value="Add note">
 </form>
 <br>
-<h1>HERE ARE YOUR NOTES:</h1><br>
+<h1>HERE ARE NOTES TO ALL:</h1><br>
 {% for note in notes_gathered %}<br>
 {{note.time}}  {{note.memo}}
 {% endfor %}
