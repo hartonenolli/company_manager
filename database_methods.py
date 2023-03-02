@@ -142,7 +142,6 @@ def get_combined_price_admin():
 def get_work_history(work_id):
     result = db.session.execute(text("SELECT id, user_id, modifier, explination, time, costumer, work_type, price, status, date FROM modify WHERE work_id=:work_id ORDER BY time DESC"), {'work_id':work_id})
     modify_list = result.fetchall()
-    #result = db.session.execute(text("SELECT user_id FROM work WHERE id=:id"), {'id':id})
     if modify_list is None:
         return []
     return modify_list
@@ -176,7 +175,18 @@ def update_work(work_id, costumer, work_type, price, status, date):
                        {"id":work_id, "costumer":costumer, "work_type":work_type, "price":price, "status":status, "date":date})
     db.session.commit()
 
-def search_by_given(costumer_search, date_search):
+def search_by_given(costumer_search, date_search, user_id):
+    if date_search is "":
+        date_search = "1950"
+        second_date = "2049"
+    else:
+        second_date = int(date_search) + 1
+    result = db.session.execute(text("SELECT id, costumer, work_type, price, status, date FROM work WHERE user_id=:user_id AND costumer LIKE :costumer_search AND date >= :date_search AND date < :second_date"),
+                        {"costumer_search":"%"+costumer_search+"%", "date_search":date_search+"-01-01", "second_date":str(second_date)+"-01-01", "user_id":user_id})
+    found = result.fetchall()
+    return found
+
+def search_by_given_admin(costumer_search, date_search):
     if date_search is "":
         date_search = "1950"
         second_date = "2049"
@@ -185,15 +195,6 @@ def search_by_given(costumer_search, date_search):
     result = db.session.execute(text("SELECT id, costumer, work_type, price, status, date FROM work WHERE costumer LIKE :costumer_search AND date >= :date_search AND date < :second_date"),
                         {"costumer_search":"%"+costumer_search+"%", "date_search":date_search+"-01-01", "second_date":str(second_date)+"-01-01"})
     found = result.fetchall()
-    #WHERE
-    #  login_date >= '2014-02-01'
-  #AND login_date <  '2014-03-01'
-    #result_2 = db.session.execute(text("SELECT id, costumer, work_type, price, status, date FROM work WHERE date=:date_search"),
-    #                        {"date_search":date_search})
-    #found_date = result_2.fetchall()
-    #for i, work in enumerate(found_costumer, 0):
-    #    if work.id not in found_date:
-    #        found_date.pop(i)
     return found
 
 def good_password(password):

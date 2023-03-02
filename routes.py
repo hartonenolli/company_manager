@@ -85,7 +85,10 @@ def search():
 def search_by():
     costumer_search = request.args["costumer"]
     date_search = request.args["date"]
-    found = database_methods.search_by_given(costumer_search=costumer_search, date_search=date_search)
+    if database_methods.get_admin(username=session["username"]) == "You are not admin":
+        found = database_methods.search_by_given(costumer_search=costumer_search, date_search=date_search, user_id=session["user_id"])
+    else:
+        found = database_methods.search_by_given_admin(costumer_search=costumer_search, date_search=date_search)
     return render_template("search_by.html", found=found)
 
 @app.route("/add")
@@ -115,7 +118,7 @@ def info():
         intrest_list = count[0]
         combined_price = database_methods.get_combined_price(session["username"])
         return render_template("info_gathered.html", intrest=intrest, intrest_list=intrest_list, number_of_intrest=number_of_intrest, combined_price=combined_price)
-    if not database_methods.get_admin(session["username"]):
+    if database_methods.get_admin(session["username"]) == "You are not admin":
         return redirect("/login")
     if intrest == "costumer_admin":
         count = database_methods.get_count_by_costumer_admin()
@@ -163,4 +166,5 @@ def modify_done():
 def logout():
     del session["username"]
     del session["user_id"]
+    del session["csrf_token"]
     return redirect("/")
