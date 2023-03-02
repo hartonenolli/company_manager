@@ -146,6 +146,18 @@ def get_work_history(work_id):
         return []
     return modify_list
 
+def get_notes(user_id):
+    result = db.session.execute(text("SELECT id, time, memo FROM notes WHERE user_id=:user_id ORDER BY time DESC"), {'user_id':user_id})
+    notes_gathered = result.fetchall()
+    if notes_gathered is None:
+        return []
+    return notes_gathered
+
+def insert_note(user_id, memo):
+    db.session.execute(text("INSERT INTO notes (user_id, time, memo) VALUES (:user_id, NOW(), :memo)"),
+                       {"user_id":user_id, "memo":memo})
+    db.session.commit()
+
 def insert_user_password_admin(username, password, admin):
     db.session.execute(text("INSERT INTO users (username, password, admin) VALUES (:username, :password, :admin)"), {"username":username, "password":password, "admin":admin})
     db.session.commit()

@@ -8,3 +8,15 @@ WELCOME USER {{user}}<br>
 <a href="/search">I want to search from work</a>
 <br>
 <a href="/add">I want to add new work</a>
+<br>
+<form action="/login_note" method="POST">
+    <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
+    <h2>Write a new note:</h2><br>
+    <textarea name="note" rows="5" cols="40"></textarea>
+    <input type="submit" value="Add note">
+</form>
+<br>
+<h1>HERE ARE YOUR NOTES:</h1><br>
+{% for note in notes_gathered %}<br>
+{{note.time}}  {{note.memo}}
+{% endfor %}

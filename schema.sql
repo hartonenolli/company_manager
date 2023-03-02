@@ -28,3 +28,10 @@ CREATE TABLE modify (
     status TEXT,
     date DATE
 );
+
+CREATE TABLE notes (
+    id SERIAL PRIMARY KEY,
+    user_id INTEGER REFERENCES users,
+    time TIMESTAMP,
+    memo TEXT
+);

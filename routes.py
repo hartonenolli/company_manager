@@ -45,7 +45,18 @@ def login():
         session["user_id"] = database_methods.get_id(user)
         session["csrf_token"] = secrets.token_hex(16)
     admin = database_methods.get_admin(user)
-    return render_template("login.html", user=user, admin=admin)
+    notes_gathered = database_methods.get_notes(user_id=session["user_id"])
+    return render_template("login.html", user=user, admin=admin, notes_gathered=notes_gathered)
+
+@app.route("/login_note", methods=["POST"])
+def login_note():
+    if session["csrf_token"] != request.form["csrf_token"]:
+        abort(403)
+    memo = request.form["note"]
+    database_methods.insert_note(user_id=session["user_id"], memo=memo)
+    admin = database_methods.get_admin(session["username"])
+    notes_gathered = database_methods.get_notes(user_id=session["user_id"])
+    return render_template("login.html", user=session["username"], admin=admin, notes_gathered=notes_gathered)
     
 
 @app.route("/about_to_add", methods=["POST"])
