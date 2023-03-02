@@ -81,6 +81,13 @@ def search():
 
     return render_template("search.html")
 
+@app.route("/search_by", methods=["GET"])
+def search_by():
+    costumer_search = request.args["costumer"]
+    date_search = request.args["date"]
+    found = database_methods.search_by_given(costumer_search=costumer_search, date_search=date_search)
+    return render_template("search_by.html", found=found)
+
 @app.route("/add")
 def add():
 
