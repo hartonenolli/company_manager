@@ -140,7 +140,7 @@ def get_combined_price_admin():
     return combined_price
 
 def get_work_history(work_id):
-    result = db.session.execute(text("SELECT id, user_id, modifier, explination, time, costumer, work_type, price, status, date FROM modify WHERE work_id=:work_id ORDER BY time DESC"), {'work_id':work_id})
+    result = db.session.execute(text("SELECT m.id, m.modifier, m.explination, m.time, m.costumer, m.work_type, m.price, m.status, m.date, u.username FROM modify m LEFT JOIN users u ON m.modifier=u.id WHERE m.work_id=:work_id ORDER BY m.time DESC"), {"work_id":work_id})
     modify_list = result.fetchall()
     if modify_list is None:
         return []
@@ -210,8 +210,8 @@ def search_by_given(costumer_search, date_search, user_id):
         second_date = "2049"
     else:
         second_date = int(date_search) + 1
-    result = db.session.execute(text("SELECT id, costumer, work_type, price, status, date FROM work WHERE user_id=:user_id AND costumer LIKE :costumer_search AND date >= :date_search AND date < :second_date"),
-                        {"costumer_search":"%"+costumer_search+"%", "date_search":date_search+"-01-01", "second_date":str(second_date)+"-01-01", "user_id":user_id})
+    result = db.session.execute(text("SELECT w.id, w.costumer, w.work_type, w.price, w.status, w.date, u.username FROM work w LEFT JOIN users u ON w.user_id=u.id WHERE w.user_id=:user_id AND w.costumer LIKE :costumer_search AND w.date >= :date_search AND w.date < :second_date"), 
+        {"costumer_search":"%"+costumer_search+"%", "date_search":date_search+"-01-01", "second_date":str(second_date)+"-01-01", "user_id":user_id})
     found = result.fetchall()
     return found
 
@@ -221,7 +221,7 @@ def search_by_given_admin(costumer_search, date_search):
         second_date = "2049"
     else:
         second_date = int(date_search) + 1
-    result = db.session.execute(text("SELECT id, costumer, work_type, price, status, date FROM work WHERE costumer LIKE :costumer_search AND date >= :date_search AND date < :second_date"),
+    result = db.session.execute(text("SELECT w.id, w.costumer, w.work_type, w.price, w.status, w.date, u.username FROM work w LEFT JOIN users u ON w.user_id=u.id WHERE w.costumer LIKE :costumer_search AND w.date >= :date_search AND w.date < :second_date"),
                         {"costumer_search":"%"+costumer_search+"%", "date_search":date_search+"-01-01", "second_date":str(second_date)+"-01-01"})
     found = result.fetchall()
     return found
