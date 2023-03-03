@@ -15,8 +15,16 @@ WELCOME USER {{user}}<br>
     <textarea name="note" rows="5" cols="40"></textarea>
     <input type="submit" value="Add note">
 </form>
-<br>
 <h1>HERE ARE NOTES TO ALL:</h1><br>
-{% for note in notes_gathered %}<br>
-{{note.time}}  {{note.memo}}
+<br>
+<br>
+
+{% for note in notes_gathered %}
+<form action="/comment_note" method="POST">
+    <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
+    <input type="hidden" name="selected" value={{note.id}} checked>
+    {{note.time.strftime("%Y-%m-%d %H:%M:%S")}}  {{note.memo}} <input type="submit" value="Comment note">
+</form>
 {% endfor %}
+
+    

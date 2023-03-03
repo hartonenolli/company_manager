@@ -57,6 +57,26 @@ def login_note():
     admin = database_methods.get_admin(session["username"])
     notes_gathered = database_methods.get_notes()
     return render_template("login.html", user=session["username"], admin=admin, notes_gathered=notes_gathered)
+
+@app.route("/comment_note", methods=["POST"])
+def comment_note():
+    if session["csrf_token"] != request.form["csrf_token"]:
+        abort(403)
+    id = request.form["selected"]
+    note_gathered = database_methods.get_one_note(id=id)
+    note_comments = database_methods.get_comments_and_commenters(notes_id=id)
+    return render_template("comment_note.html", note_gathered=note_gathered, note_comments=note_comments)
+
+@app.route("/note_commented", methods=["POST"])
+def note_commented():
+    if session["csrf_token"] != request.form["csrf_token"]:
+        abort(403)
+    id = request.form["selected"]
+    comment = request.form["comment_for_note"]
+    database_methods.insert_comment(user_id=session["user_id"], notes_id=id, comment=comment)
+    note_gathered = database_methods.get_one_note(id=id)
+    note_comments = database_methods.get_comments_and_commenters(notes_id=id)
+    return render_template("comment_note.html", note_gathered=note_gathered, note_comments=note_comments)
     
 
 @app.route("/about_to_add", methods=["POST"])

@@ -27,7 +27,7 @@ WELCOME USER {{session.username}}<br>
 </form>
 <br><br><h1>All the times this work has been modified:</h1><br>
 {% for work in work_history %}
-Modified at:  {{work.time}} Explination:  {{work.explination}}<br>
+Modified at:  {{work.time.strftime("%Y-%m-%d %H:%M:%S")}} Explination:  {{work.explination}}<br>
 Costumer:  {{work.costumer}}  Work type:  {{work.work_type}}  Price:  {{work.price}}  Status:  {{work.status}}  Start date:  {{work.date}}<br><br>
 {% endfor %}
 <a href="/login">Return</a>

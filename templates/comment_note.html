@@ -1,0 +1,17 @@
+<h1>THIS IS THE NOTE:</h1><br>
+{% for note in note_gathered %}
+Time:  {{note.time.strftime("%Y-%m-%d %H:%M:%S")}}         Memo: {{note.memo}}<br>
+<form action="/note_commented" method="POST">
+    <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
+    <input type="hidden" name="selected" value={{note.id}} checked>
+    <h2>Write here:</h2><br>
+    <textarea name="comment_for_note" rows="5" cols="40"></textarea>
+    <input type="submit" value="Leave comment">
+</form>
+{% endfor %}
+<br><h2>Comments for the note:</h2>
+<br>
+{% for note in note_comments %}
+    {{note.time.strftime("%Y-%m-%d %H:%M:%S")}}     {{note.username}}     {{note.comment}}<br><br>
+{% endfor %}
+<a href="/login">Return</a>

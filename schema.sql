@@ -35,3 +35,11 @@ CREATE TABLE notes (
     time TIMESTAMP,
     memo TEXT
 );
+
+CREATE TABLE comments (
+    id SERIAL PRIMARY KEY,
+    user_id INTEGER REFERENCES users,
+    notes_id INTEGER REFERENCES notes,
+    time TIMESTAMP,
+    comment TEXT
+);

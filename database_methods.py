@@ -153,9 +153,26 @@ def get_notes():
         return []
     return notes_gathered
 
+def get_one_note(id):
+    result = db.session.execute(text("SELECT id, time, memo FROM notes WHERE id=:id"), {"id":id})
+    note_gathered = result.fetchall()
+    return note_gathered
+
+def get_comments_and_commenters(notes_id):
+    result = db.session.execute(text("SELECT c.comment, c.time, u.username FROM comments c LEFT JOIN users u ON c.user_id=u.id WHERE c.notes_id=:notes_id ORDER BY c.time DESC"), {"notes_id":notes_id})
+    gathered = result.fetchall()
+    if gathered is None:
+        return []
+    return gathered
+
 def insert_note(user_id, memo):
     db.session.execute(text("INSERT INTO notes (user_id, time, memo) VALUES (:user_id, NOW(), :memo)"),
                        {"user_id":user_id, "memo":memo})
+    db.session.commit()
+
+def insert_comment(user_id, notes_id, comment):
+    db.session.execute(text("INSERT INTO comments (user_id, notes_id, time, comment) VALUES (:user_id, :notes_id, NOW(), :comment)"),
+                       {"user_id":user_id, "notes_id":notes_id, "comment":comment})
     db.session.commit()
 
 def insert_user_password_admin(username, password, admin):
