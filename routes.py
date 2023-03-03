@@ -132,10 +132,6 @@ def info():
     if session["csrf_token"] != request.form["csrf_token"]:
         abort(403)
     intrest = request.form["intrest"]
-    # idea to use sql = f"SELECT id, costumer, work_type, price, status, date FROM work WHERE user_id=:user_id ORDER BY {intrest}"
-    # I try to implement this when time
-    # This way it would be possible to use database_methods like so:
-    # database_method.get_count(session["username"], sql)
     if "admin" not in intrest:
         if intrest == "costumer":
             count = database_methods.get_count_by_costumer(session["username"])

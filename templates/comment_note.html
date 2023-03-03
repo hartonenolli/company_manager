@@ -12,6 +12,7 @@ Time:  {{note.time.strftime("%Y-%m-%d %H:%M:%S")}}         Memo: {{note.memo}}<b
 <br><h2>Comments for the note:</h2>
 <br>
 {% for note in note_comments %}
-    {{note.time.strftime("%Y-%m-%d %H:%M:%S")}}     {{note.username}}     {{note.comment}}<br><br>
+    Commented by:  {{note.username}}<br>
+    {{note.time.strftime("%Y-%m-%d %H:%M:%S")}}    {{note.comment}}<br><br>
 {% endfor %}
 <a href="/login">Return</a>

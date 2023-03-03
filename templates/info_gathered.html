@@ -7,7 +7,7 @@ This is the number of works: {{number_of_intrest}} {% for work in intrest_list %
 <form action="/modify" method="POST">
      <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
      <input type="radio" name="selected" value={{work.id}} checked> Modify
-     Costumer:   {{work.costumer}}          Work: {{work.work_type}}          Price:  {{work.price}}          Status:  {{work.status}}          Date:  {{work.date}}<br>
+     Worker:   {{work.username}}         Costumer:   {{work.costumer}}          Work: {{work.work_type}}          Price:  {{work.price}}          Status:  {{work.status}}          Date:  {{work.date}}<br>
      {% endfor %}
      <input type="submit" value="modify">
 </form>

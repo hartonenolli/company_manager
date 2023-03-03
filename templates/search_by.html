@@ -1,8 +1,11 @@
 <h1> This is what was found:</h1>
 
 {% for work in found %}
-Costumer:   {{work.costumer}}          Work: {{work.work_type}}          Price:  {{work.price}}          Status:  {{work.status}}          Date:  {{work.date}}<br>
-<br>
-{% endfor %}
-
+<form action="/modify" method="POST">
+    <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
+    <input type="radio" name="selected" value={{work.id}} checked> Modify
+    Costumer:   {{work.costumer}}          Work: {{work.work_type}}          Price:  {{work.price}}          Status:  {{work.status}}          Date:  {{work.date}}<br>
+    {% endfor %}
+    <input type="submit" value="modify">
+</form>
 <a href="/login">Return</a>

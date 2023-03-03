@@ -42,7 +42,7 @@ def get_count_by_costumer(username):
     user_id = id_result.fetchone()
     if user_id is None:
         return [], 0
-    result = db.session.execute(text("SELECT id, costumer, work_type, price, status, date FROM work WHERE user_id=:user_id ORDER BY costumer"), {'user_id':user_id[0]})
+    result = db.session.execute(text("SELECT w.id, w.costumer, w.work_type, w.price, w.status, w.date, u.username FROM work w LEFT JOIN users u ON w.user_id=u.id WHERE user_id=:user_id ORDER BY w.costumer"), {'user_id':user_id[0]})
     price_list = result.fetchall()
     if price_list is None:
         return [], 0
@@ -51,7 +51,7 @@ def get_count_by_costumer(username):
     return price_list, price_list_length
 
 def get_count_by_costumer_admin():
-    result = db.session.execute(text("SELECT id, costumer, work_type, price, status, date FROM work ORDER BY costumer"))
+    result = db.session.execute(text("SELECT w.id, w.costumer, w.work_type, w.price, w.status, w.date, u.username FROM work w LEFT JOIN users u ON w.user_id=u.id ORDER BY w.costumer"))
     price_list = result.fetchall()
     if price_list is None:
         return [], 0
@@ -64,7 +64,7 @@ def get_count_by_price(username):
     user_id = id_result.fetchone()
     if user_id is None:
         return [], 0
-    result = db.session.execute(text("SELECT id, costumer, work_type, price, status, date FROM work WHERE user_id=:user_id ORDER BY price DESC"), {'user_id':user_id[0]})
+    result = db.session.execute(text("SELECT w.id, w.costumer, w.work_type, w.price, w.status, w.date, u.username FROM work w LEFT JOIN users u ON w.user_id=u.id WHERE user_id=:user_id ORDER BY w.price DESC"), {'user_id':user_id[0]})
     price_list = result.fetchall()
     if price_list is None:
         return [], 0
@@ -73,7 +73,7 @@ def get_count_by_price(username):
     return price_list, price_list_length
 
 def get_count_by_price_admin():
-    result = db.session.execute(text("SELECT id, costumer, work_type, price, status, date FROM work ORDER BY price DESC"))
+    result = db.session.execute(text("SELECT w.id, w.costumer, w.work_type, w.price, w.status, w.date, u.username FROM work w LEFT JOIN users u ON w.user_id=u.id ORDER BY w.price DESC"))
     price_list = result.fetchall()
     if price_list is None:
         return [], 0
@@ -86,7 +86,7 @@ def get_count_by_work_type(username):
     user_id = id_result.fetchone()
     if user_id is None:
         return [], 0
-    result = db.session.execute(text("SELECT id, costumer, work_type, price, status, date FROM work WHERE user_id=:user_id ORDER BY work_type"), {'user_id':user_id[0]})
+    result = db.session.execute(text("SELECT w.id, w.costumer, w.work_type, w.price, w.status, w.date, u.username FROM work w LEFT JOIN users u ON w.user_id=u.id WHERE user_id=:user_id ORDER BY w.work_type"), {'user_id':user_id[0]})
     work_list = result.fetchall()
     if work_list is None:
         return [], 0
@@ -95,7 +95,7 @@ def get_count_by_work_type(username):
     return work_list, work_list_length
 
 def get_count_by_work_type_admin():
-    result = db.session.execute(text("SELECT id, costumer, work_type, price, status, date FROM work ORDER BY work_type"))
+    result = db.session.execute(text("SELECT w.id, w.costumer, w.work_type, w.price, w.status, w.date, u.username FROM work w LEFT JOIN users u ON w.user_id=u.id ORDER BY w.work_type"))
     price_list = result.fetchall()
     if price_list is None:
         return [], 0
@@ -108,7 +108,7 @@ def get_count_by_date(username):
     user_id = id_result.fetchone()
     if user_id is None:
         return [], 0
-    result = db.session.execute(text("SELECT id, costumer, work_type, price, status, date FROM work WHERE user_id=:user_id ORDER BY date DESC"), {'user_id':user_id[0]})
+    result = db.session.execute(text("SELECT w.id, w.costumer, w.work_type, w.price, w.status, w.date, u.username FROM work w LEFT JOIN users u ON w.user_id=u.id WHERE user_id=:user_id ORDER BY w.date DESC"), {'user_id':user_id[0]})
     date_list = result.fetchall()
     if date_list is None:
         return [], 0
@@ -117,7 +117,7 @@ def get_count_by_date(username):
     return date_list, date_list_length
 
 def get_count_by_date_admin():
-    result = db.session.execute(text("SELECT id, costumer, work_type, price, status, date FROM work ORDER BY date DESC"))
+    result = db.session.execute(text("SELECT w.id, w.costumer, w.work_type, w.price, w.status, w.date, u.username FROM work w LEFT JOIN users u ON w.user_id=u.id ORDER BY w.date DESC"))
     price_list = result.fetchall()
     if price_list is None:
         return [], 0
