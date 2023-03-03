@@ -1,45 +1,51 @@
 # company_manager
 
-## Current state:
+## What it is for?
 
-It is possible to register. You have to use password that is *8-digit long, has numbers, upper- and lowercase letters.*
-You can add admin user by givin admin code: "admin123"
-After registering you can login. It is possible to add new work. (This needs some work to make sure information is given correctly, but as long you give work-info in correct form it works.)
-It is possible to search all types of work. You will be shown a list of all the work you have done.
+Company manager helps to manage companies, that sell their work to multiple costumers.
 
-Modify was not something I was prepared to do at the start of the project, but I try to implement it as soon as possible. You might have a need to change the status of the work at some point. This feature is not ready.
+## What you can do?
+- Register + login
+- Add new work
+- Search by name + year
+- Sort work
+- Modify work
+- Add notes
+- Comment notes
 
-Code needs some cleaning up.
+Protip: If you want to be admin user, while registering add admin code as: "admin123"
 
-But you can still test these if you like. First clone the repo, then:
+## Instructions:
 
-python3 -m venv venv
+Clone the ropository.
 
-source venv/bin/activate
+Create .env file and insert:
 
-(venv) $ pip install flask
+    DATABASE_URL=<your url>
+    
+    SECRET_KEY=<random numbers/letters>
 
-(venv) $ pip install flask-sqlalchemy
+Enter the following command to your terminal:
 
-(venv) $ pip install psycopg2
+    python3 -m venv venv
 
-(venv) $ pip install python-dotenv
+    source venv/bin/activate
 
-(venv) $ pip install -r requirements.txt
+    (venv) $ pip install flask
 
-(venv) $ psql < schema.sql
+    (venv) $ pip install flask-sqlalchemy
 
-(venv) $ flask run
+    (venv) $ pip install psycopg2
 
-## What is this?
+    (venv) $ pip install python-dotenv
 
-    The application helps users maintain completed and unfinished work.
+    (venv) $ pip install -r requirements.txt
 
-## Who is it for?
+    (venv) $ psql < schema.sql
 
-    This is to help companies that sells services to different locations.
+    (venv) $ flask run
 
-## Basics
+## Original idea
 
 The idea is to maintain a database with (at least) following data:
 
@@ -63,6 +69,33 @@ And many more..
 There could be two different users:
 - manager that has access to everything
 - worker that has  access to own work
+
+## Created product:
+
+I have database with 5 tables: users, work, modify, notes, comments
+
+Users:
+- Stores user data. Username, password and admin
+
+Work:
+- Stores work data. Costumer, work_type, price, status, date
+- References users
+
+Modify:
+- Stores copy of modified work and time, explination
+- References users and work
+
+Notes:
+- Sores notes for all to see. Time, memo
+- References users
+
+Comments:
+- Stores comments for notes. Time, comment
+- References users and notes
+
+## Toughts:
+
+It was really satisfying to work on this project. I am really happy on the final product.
 
 ### Other
 This is for tsoha 2023
